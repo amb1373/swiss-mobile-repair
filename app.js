@@ -8,64 +8,82 @@ let selectedIssue = '';
 let userLatitude = null;
 let userLongitude = null;
 let userZip = '';
-let mapInstance = null;
-let markersGroup = [];
 
 const branches = [
     {
         id: 'sursee',
-        name: 'Sursee (Surseepark)',
+        name: 'natelo Sursee',
         address: 'Surseepark 3, Bahnhofstrasse 20, 6210 Sursee',
         postalCode: '6210',
         lat: 47.172917,
         lng: 8.104028,
         phone: '+41 41 921 20 20',
-        whatsappPhone: '41419212020', // Configurable WhatsApp receiver (no spaces, include country code)
-        directionsUrl: 'https://www.google.com/maps?ll=47.172918,8.101465&z=16&t=m&hl=en&gl=DE&mapclient=embed&q=47°10%2722.5%22N+8°06%2714.5%22E+47.172917,+8.104028@47.17291669999999,8.104027799999999'
+        whatsappPhone: '41419212020',
+        directionsUrl: 'https://maps.app.goo.gl/RrSzDYerj1ucfwb26',
+        rating: '4.9',
+        reviewsCount: 148,
+        image: 'assets/store_sursee.png',
+        embedUrl: 'https://maps.google.com/maps?q=natelo%20Sursee&output=embed'
     },
     {
         id: 'rapperswil',
-        name: 'Rapperswil-Jona',
+        name: 'natelo Rapperswil',
         address: 'Obere Bahnhofstrasse 58, 8640 Rapperswil',
         postalCode: '8640',
         lat: 47.228056,
         lng: 8.819944,
         phone: '+41 55 210 86 40',
         whatsappPhone: '41552108640',
-        directionsUrl: 'https://www.google.com/maps?ll=47.228069,8.817359&z=16&t=m&hl=en&gl=DE&mapclient=embed&q=47°13%2741.0%22N+8°49%2711.8%22E+47.228056,+8.819944@47.2280556,8.819944399999999'
+        directionsUrl: 'https://maps.app.goo.gl/b4VzY1ACyj61GPtC6',
+        rating: '4.9',
+        reviewsCount: 203,
+        image: 'assets/store_rapperswil.png',
+        embedUrl: 'https://maps.google.com/maps?q=natelo%20Rapperswil&output=embed'
     },
     {
         id: 'muri',
-        name: 'Muri AG',
+        name: 'natelo Muri',
         address: 'Aarauerstrasse 6, 5630 Muri',
         postalCode: '5630',
         lat: 47.274376,
         lng: 8.341140,
         phone: '+41 56 664 56 30',
         whatsappPhone: '41566645630',
-        directionsUrl: 'https://www.google.com/maps?cid=12308821939435831254&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAMYASAF&hl=en&source=embed'
+        directionsUrl: 'https://maps.app.goo.gl/KjhbYp9aPhyczfB69',
+        rating: '4.9',
+        reviewsCount: 92,
+        image: 'assets/store_muri.png',
+        embedUrl: 'https://maps.google.com/maps?q=natelo%20Muri&output=embed'
     },
     {
         id: 'kuessnacht',
-        name: 'Küssnacht am Rigi',
+        name: 'natelo Küssnacht',
         address: 'Bahnhofstrasse 38, 6403 Küssnacht',
         postalCode: '6403',
         lat: 47.082778,
         lng: 8.437944,
         phone: '+41 41 850 64 03',
         whatsappPhone: '41418506403',
-        directionsUrl: 'https://www.google.com/maps?ll=47.082765,8.437824&z=19&t=m&hl=en&gl=US&mapclient=embed&q=47°04%2758.0%22N+8°26%2716.6%22E+47.082778,+8.437944@47.0827778,8.4379444'
+        directionsUrl: 'https://maps.app.goo.gl/V9PMfURYJjh8ETJy6',
+        rating: '4.9',
+        reviewsCount: 115,
+        image: 'assets/store_kussnacht.png',
+        embedUrl: 'https://maps.google.com/maps?q=natelo%20K%C3%BCssnacht&output=embed'
     },
     {
         id: 'emmenbruecke',
-        name: 'Emmenbrücke',
+        name: 'natelo Emmen',
         address: 'Sonnenplatz 1, 6020 Emmenbrücke',
         postalCode: '6020',
         lat: 47.0761,
         lng: 8.2615,
         phone: '+41 41 260 60 20',
         whatsappPhone: '41412606020',
-        directionsUrl: 'https://maps.google.com/?q=Sonnenplatz+1,+6020+Emmenbr%C3%BCcke'
+        directionsUrl: 'https://maps.app.goo.gl/ocEoLbRzqZhEqde56',
+        rating: '4.9',
+        reviewsCount: 176,
+        image: 'assets/store_emmen.png',
+        embedUrl: 'https://maps.google.com/maps?q=natelo%20Emmen&output=embed'
     }
 ];
 
@@ -568,25 +586,7 @@ function processNearestBranch() {
     window.currentDistance = nearest.distance;
     
     // Update UI elements with nearest details
-    document.getElementById('nearest-branch-name').innerText = nearest.name;
-    document.getElementById('nearest-branch-distance').innerText = translations[selectedLanguage]['distance-text'].replace('{dist}', nearest.distance);
-    document.getElementById('nearest-branch-address').innerText = nearest.address;
-    
-    // Update status badge
-    const statusInfo = getStoreOpenStatus(nearest);
-    const statusBadge = document.getElementById('nearest-branch-status');
-    statusBadge.innerText = statusInfo.text;
-    statusBadge.className = `status-badge ${statusInfo.open ? 'open' : 'closed'}`;
-    
-    // Update address in the post step target details
-    document.getElementById('post-target-address').innerText = nearest.address;
-    
-    // Update direct action links
-    document.getElementById('link-navigation').href = nearest.directionsUrl;
-    updateWhatsAppLink();
-    
-    // Highlight closest item in branches list
-    highlightBranchItemInSidebar(nearest.id);
+    updateSelectedBranchUI(nearest);
     
     // Reveal third step (Results panel & Map), FAQ and footer
     const resultsStep = document.getElementById('results-section');
@@ -598,9 +598,6 @@ function processNearestBranch() {
     
     setTimeout(() => {
         resultsStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        
-        // Initialize Map or update coordinates
-        initOrUpdateMap(nearest);
     }, 100);
 }
 
@@ -636,58 +633,58 @@ function updateWhatsAppLink() {
 }
 
 // ==========================================================================
-// Interactive Map (Leaflet & OpenStreetMap)
+// Interactive Google Map Embed & UI Update
 // ==========================================================================
 function initOrUpdateMap(focusedBranch) {
-    const mapContainer = document.getElementById('repair-map');
+    const mapElement = document.getElementById('repair-map');
+    if (mapElement && focusedBranch.embedUrl) {
+        mapElement.src = focusedBranch.embedUrl;
+    }
+}
+
+function updateSelectedBranchUI(branch) {
+    // Update branch title
+    document.getElementById('nearest-branch-name').innerText = branch.name;
     
-    // If map does not exist, create it
-    if (!mapInstance) {
-        mapInstance = L.map(mapContainer, {
-            scrollWheelZoom: false
-        }).setView([focusedBranch.lat, focusedBranch.lng], 12);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        }).addTo(mapInstance);
-        
-        // Add markers for all 5 branches
-        branches.forEach(b => {
-            const statusInfo = getStoreOpenStatus(b);
-            const popupContent = `
-                <div class="map-popup-bubble">
-                    <strong style="color:#000000; font-size:1.1rem; font-family:var(--font-heading);">${b.name}</strong><br>
-                    <p style="margin: 4px 0 8px 0; color:#1d1d1f; font-size:0.9rem;">${b.address}</p>
-                    <span style="display:inline-block; padding: 2px 8px; font-size:0.75rem; font-weight:700; border-radius:10px; color:${statusInfo.open ? '#ffffff':'#6e6e73'}; background:${statusInfo.open ? '#000000':'#f5f5f7'}; border: 1px solid ${statusInfo.open ? '#000000':'#d2d2d7'}">${statusInfo.text}</span>
-                </div>
-            `;
-            
-            const marker = L.marker([b.lat, b.lng]).addTo(mapInstance)
-                .bindPopup(popupContent);
-                
-            markersGroup.push({ id: b.id, markerInstance: marker });
-        });
+    // Distance text
+    if (branch.distance !== undefined && branch.distance !== null && branch.distance > 0) {
+        document.getElementById('nearest-branch-distance').innerText = translations[selectedLanguage]['distance-text'].replace('{dist}', branch.distance);
     } else {
-        // Map exists, just re-center and open popup
-        mapInstance.setView([focusedBranch.lat, focusedBranch.lng], 12);
+        document.getElementById('nearest-branch-distance').innerText = '';
     }
     
-    // Invalidate size in case the container was hidden initially
-    setTimeout(() => {
-        if (mapInstance) {
-            mapInstance.invalidateSize();
-        }
-    }, 100);
+    // Update address
+    document.getElementById('nearest-branch-address').innerText = branch.address;
     
-    // Open popup for the focused branch
-    const matched = markersGroup.find(m => m.id === focusedBranch.id);
-    if (matched) {
-        setTimeout(() => {
-            matched.markerInstance.openPopup();
-        }, 300);
-    }
+    // Update phone link details
+    const phoneLink = document.getElementById('nearest-branch-phone-link');
+    phoneLink.innerText = branch.phone;
+    phoneLink.href = `tel:${branch.phone.replace(/\s+/g, '')}`;
+    
+    // Update storefront image & rating
+    document.getElementById('nearest-branch-image').src = branch.image;
+    document.getElementById('nearest-branch-image').alt = branch.name;
+    document.getElementById('nearest-branch-rating-text').innerText = `${branch.rating} (${branch.reviewsCount} Rezensionen)`;
+    
+    // Update status badge
+    const statusInfo = getStoreOpenStatus(branch);
+    const statusBadge = document.getElementById('nearest-branch-status');
+    statusBadge.innerText = statusInfo.text;
+    statusBadge.className = `status-badge ${statusInfo.open ? 'open' : 'closed'}`;
+    
+    // Update address in the post step target details
+    document.getElementById('post-target-address').innerText = branch.address;
+    
+    // Update direct action links
+    document.getElementById('link-navigation').href = branch.directionsUrl;
+    document.getElementById('link-call').href = `tel:${branch.phone.replace(/\s+/g, '')}`;
+    updateWhatsAppLink();
+    
+    // Update Map
+    initOrUpdateMap(branch);
+    
+    // Highlight closest item in branches list
+    highlightBranchItemInSidebar(branch.id);
 }
 
 // Render the 5 branches dynamically in the HTML sidebar list
@@ -723,26 +720,7 @@ function selectBranchFromSidebar(branch) {
     window.currentDistance = branch.distance || 0;
     
     // Update UI elements
-    document.getElementById('nearest-branch-name').innerText = branch.name;
-    document.getElementById('nearest-branch-distance').innerText = branch.distance ? translations[selectedLanguage]['distance-text'].replace('{dist}', branch.distance) : '';
-    document.getElementById('nearest-branch-address').innerText = branch.address;
-    
-    const statusInfo = getStoreOpenStatus(branch);
-    const statusBadge = document.getElementById('nearest-branch-status');
-    statusBadge.innerText = statusInfo.text;
-    statusBadge.className = `status-badge ${statusInfo.open ? 'open' : 'closed'}`;
-    
-    // Update address in the post step target details
-    document.getElementById('post-target-address').innerText = branch.address;
-    
-    // Update direct action links
-    document.getElementById('link-navigation').href = branch.directionsUrl;
-    updateWhatsAppLink();
-    
-    highlightBranchItemInSidebar(branch.id);
-    
-    // Re-center map
-    initOrUpdateMap(branch);
+    updateSelectedBranchUI(branch);
 }
 
 // Toggle display of post instructions card
@@ -775,24 +753,10 @@ function showAllBranchesDirectly() {
     window.currentDistance = 0;
     
     // Update UI elements
-    document.getElementById('nearest-branch-name').innerText = defaultBranch.name;
-    document.getElementById('nearest-branch-distance').innerText = ''; // Hide distance since no ZIP was entered
-    document.getElementById('nearest-branch-address').innerText = defaultBranch.address;
-    
-    const statusInfo = getStoreOpenStatus(defaultBranch);
-    const statusBadge = document.getElementById('nearest-branch-status');
-    statusBadge.innerText = statusInfo.text;
-    statusBadge.className = `status-badge ${statusInfo.open ? 'open' : 'closed'}`;
-    
-    document.getElementById('post-target-address').innerText = defaultBranch.address;
-    document.getElementById('link-navigation').href = defaultBranch.directionsUrl;
-    updateWhatsAppLink();
-    
-    highlightBranchItemInSidebar(defaultBranch.id);
+    updateSelectedBranchUI(defaultBranch);
     
     // Scroll to results section
     setTimeout(() => {
         resultsStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        initOrUpdateMap(defaultBranch);
     }, 100);
 }

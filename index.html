@@ -18,9 +18,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Leaflet CSS for Maps (Loaded asynchronously to optimize speed) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="style.css">
 
@@ -32,7 +29,7 @@
         {
           "@type": "LocalBusiness",
           "@id": "https://reparieren.ch/#sursee",
-          "name": "Handy Reparatur Experten - Sursee",
+          "name": "natelo Sursee",
           "image": "https://reparieren.ch/assets/hero_banner.png",
           "telephone": "+41419212020",
           "address": {
@@ -57,7 +54,7 @@
         {
           "@type": "LocalBusiness",
           "@id": "https://reparieren.ch/#rapperswil",
-          "name": "Handy Reparatur Experten - Rapperswil",
+          "name": "natelo Rapperswil",
           "image": "https://reparieren.ch/assets/hero_banner.png",
           "telephone": "+41552108640",
           "address": {
@@ -82,7 +79,7 @@
         {
           "@type": "LocalBusiness",
           "@id": "https://reparieren.ch/#muri",
-          "name": "Handy Reparatur Experten - Muri",
+          "name": "natelo Muri",
           "image": "https://reparieren.ch/assets/hero_banner.png",
           "telephone": "+41566645630",
           "address": {
@@ -107,7 +104,7 @@
         {
           "@type": "LocalBusiness",
           "@id": "https://reparieren.ch/#kuessnacht",
-          "name": "Handy Reparatur Experten - Küssnacht",
+          "name": "natelo Küssnacht",
           "image": "https://reparieren.ch/assets/hero_banner.png",
           "telephone": "+41418506403",
           "address": {
@@ -132,7 +129,7 @@
         {
           "@type": "LocalBusiness",
           "@id": "https://reparieren.ch/#emmenbruecke",
-          "name": "Handy Reparatur Experten - Emmenbrücke",
+          "name": "natelo Emmen",
           "image": "https://reparieren.ch/assets/hero_banner.png",
           "telephone": "+41412606020",
           "address": {
@@ -414,13 +411,25 @@
                 <div class="branch-details-panel">
                     <div class="nearest-badge" data-i18n="nearest-badge">⭐ Empfohlene Filiale</div>
                     
-                    <h3 id="nearest-branch-name" class="branch-title">Rapperswil-Jona</h3>
+                    <div class="branch-hero-container">
+                        <img id="nearest-branch-image" class="branch-storefront-img" src="" alt="natelo Storefront">
+                        <div class="branch-rating-badge">
+                            <span class="stars">★★★★★</span>
+                            <span id="nearest-branch-rating-text" class="rating-text">4.9 (184 Rezensionen)</span>
+                        </div>
+                    </div>
+                    
+                    <h3 id="nearest-branch-name" class="branch-title">natelo Rapperswil</h3>
                     <p id="nearest-branch-distance" class="branch-distance">Entfernung: -- km</p>
                     
                     <div class="branch-address-box">
                         <div class="info-row">
                             <span class="info-label" data-i18n="addr-label">📍 Adresse:</span>
                             <span id="nearest-branch-address" class="info-value">Obere Bahnhofstrasse 58, 8640 Rapperswil</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label" data-i18n="phone-label">📞 Telefon:</span>
+                            <span class="info-value"><a id="nearest-branch-phone-link" href="tel:+41552108640" style="color:inherit; text-decoration:none; font-weight:500;">+41 55 210 86 40</a></span>
                         </div>
                         <div class="info-row">
                             <span class="info-label" data-i18n="hours-label">🕒 Öffnungszeiten:</span>
@@ -465,17 +474,23 @@
                                 <h4 data-i18n="cta-visit-title">Im Laden vorbeibringen</h4>
                                 <p data-i18n="cta-visit-desc">Besuchen Sie uns direkt ohne Termin. Express-Reparatur in 30 Min.</p>
                             </div>
-                            <a href="#" id="link-navigation" target="_blank" rel="noopener" class="btn btn-secondary">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                                <span data-i18n="btn-directions">Routenplaner</span>
-                            </a>
+                            <div class="cta-button-group">
+                                <a href="#" id="link-navigation" target="_blank" rel="noopener" class="btn btn-secondary" style="flex: 1;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                    <span data-i18n="btn-directions">Routenplaner</span>
+                                </a>
+                                <a href="#" id="link-call" class="btn btn-outline" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    <span data-i18n="btn-call">Anrufen</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Interactive Leaflet Map and Branch Selector -->
+                <!-- Interactive Google Map and Branch Selector -->
                 <div class="map-container-wrapper">
-                    <div id="repair-map" aria-label="Interaktive Karte der Filialen"></div>
+                    <iframe id="repair-map" aria-label="Google Map der Filiale" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="all-branches-list">
                         <div class="list-title" data-i18n="all-branches-title">Unsere 5 Standorte in der Schweiz</div>
                         <div class="branches-grid" id="branches-list-container">
@@ -543,8 +558,6 @@
         </div>
     </footer>
 
-    <!-- Leaflet JS (Required for Map) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Custom Application Javascript -->
     <script src="app.js"></script>
 </body>
