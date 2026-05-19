@@ -127,6 +127,7 @@ const translations = {
         'issue-9': 'Datenrettung bei Totalschaden',
         'issue-10': 'Hintere Kamera',
         'issue-11': 'Profi Reinigung',
+        'issue-12': 'Anderes Problem',
 
         'zip-label': 'Postleitzahl (PLZ)',
         'btn-find': 'Filiale Suchen',
@@ -218,6 +219,7 @@ const translations = {
         'issue-9': 'Data Recovery for Total Damage',
         'issue-10': 'Rear Camera',
         'issue-11': 'Professional Cleaning',
+        'issue-12': 'Other issue',
 
         'zip-label': 'Postal Code (ZIP)',
         'btn-find': 'Find Branch',
@@ -496,35 +498,35 @@ async function findNearestByZip() {
     hideError();
     const inputVal = document.getElementById('zip-input').value.trim();
     
-    if (!/^\d{4}$/.test(inputVal)) {
-        showError(translations[selectedLanguage]['error-zip']);
-        return;
-    }
-    
     showSearchingState(true);
-    userZip = inputVal;
+    userZip = inputVal ? inputVal : 'Default';
     
-    // Check if we have regional code fallback immediately to maintain instantaneous speeds
-    const prefix2 = inputVal.substring(0, 2);
-    let coords = zipPrefixCoordinates[prefix2] || zipPrefixCoordinates[inputVal.substring(0, 1) + '0'] || null;
+    let coords = null;
     
-    try {
-        const response = await fetch(`https://api.zippopotam.us/ch/${inputVal}`);
-        if (response.ok) {
-            const data = await response.json();
-            if (data.places && data.places.length > 0) {
-                coords = {
-                    lat: parseFloat(data.places[0].latitude),
-                    lng: parseFloat(data.places[0].longitude)
-                };
+    if (/^\d{4}$/.test(inputVal)) {
+        // Check if we have regional code fallback immediately to maintain instantaneous speeds
+        const prefix2 = inputVal.substring(0, 2);
+        coords = zipPrefixCoordinates[prefix2] || zipPrefixCoordinates[inputVal.substring(0, 1) + '0'] || null;
+        
+        try {
+            const response = await fetch(`https://api.zippopotam.us/ch/${inputVal}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.places && data.places.length > 0) {
+                    coords = {
+                        lat: parseFloat(data.places[0].latitude),
+                        lng: parseFloat(data.places[0].longitude)
+                    };
+                }
             }
+        } catch (e) {
+            console.warn("Zippopotam API fetch failed. Using Swiss region routing fallbacks.", e);
         }
-    } catch (e) {
-        console.warn("Zippopotam API fetch failed. Using Swiss region routing fallbacks.", e);
     }
     
     if (!coords) {
-        coords = { lat: 47.3769, lng: 8.5417 }; 
+        // If postcode is invalid or not found, fallback to Emmenbrücke coordinates
+        coords = { lat: 47.0761, lng: 8.2615 };
     }
     
     userLatitude = coords.lat;
@@ -624,9 +626,9 @@ function updateWhatsAppLink() {
     
     let textMessage = "";
     if (selectedLanguage === 'de') {
-        textMessage = `Hallo Swiss Phone Repair ${nearest.name}, ich möchte mein Smartphone reparieren lassen.\nDefekt: ${issueText}\nPLZ: ${zipText}\nWann kann ich heute für die Express-Reparatur vorbeikommen?`;
+        textMessage = `Hallo reparaturvergleich ${nearest.name}, ich möchte mein Smartphone reparieren lassen.\nDefekt: ${issueText}\nPLZ: ${zipText}\nWann kann ich heute für die Express-Reparatur vorbeikommen?`;
     } else {
-        textMessage = `Hello Swiss Phone Repair ${nearest.name}, I would like to get my smartphone repaired.\nIssue: ${issueText}\nZIP Code: ${zipText}\nWhen can I come by today for the express repair?`;
+        textMessage = `Hello reparaturvergleich ${nearest.name}, I would like to get my smartphone repaired.\nIssue: ${issueText}\nZIP Code: ${zipText}\nWhen can I come by today for the express repair?`;
     }
     
     const encodedMessage = encodeURIComponent(textMessage);
