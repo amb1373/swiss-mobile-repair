@@ -22,7 +22,7 @@ const branches = [
         directionsUrl: 'https://maps.app.goo.gl/RrSzDYerj1ucfwb26',
         rating: '4.9',
         reviewsCount: 148,
-        image: 'assets/store_sursee.png',
+        image: 'assets/store_sursee.webp',
         embedUrl: 'https://maps.google.com/maps?q=natelo%20Sursee&output=embed'
     },
     {
@@ -37,7 +37,7 @@ const branches = [
         directionsUrl: 'https://maps.app.goo.gl/b4VzY1ACyj61GPtC6',
         rating: '4.9',
         reviewsCount: 203,
-        image: 'assets/store_rapperswil.png',
+        image: 'assets/store_rapperswil.webp',
         embedUrl: 'https://maps.google.com/maps?q=natelo%20Rapperswil&output=embed'
     },
     {
@@ -52,7 +52,7 @@ const branches = [
         directionsUrl: 'https://maps.app.goo.gl/KjhbYp9aPhyczfB69',
         rating: '4.9',
         reviewsCount: 92,
-        image: 'assets/store_muri.png',
+        image: 'assets/store_muri.webp',
         embedUrl: 'https://maps.google.com/maps?q=natelo%20Muri&output=embed'
     },
     {
@@ -67,7 +67,7 @@ const branches = [
         directionsUrl: 'https://maps.app.goo.gl/V9PMfURYJjh8ETJy6',
         rating: '4.9',
         reviewsCount: 115,
-        image: 'assets/store_kussnacht.png',
+        image: 'assets/store_kussnacht.webp',
         embedUrl: 'https://maps.google.com/maps?q=natelo%20K%C3%BCssnacht&output=embed'
     },
     {
