@@ -82,7 +82,7 @@ const branches = [
         directionsUrl: 'https://maps.app.goo.gl/ocEoLbRzqZhEqde56',
         rating: '4.9',
         reviewsCount: 176,
-        image: 'assets/store_emmen.png',
+        image: 'assets/store_emmen.webp',
         embedUrl: 'https://maps.google.com/maps?q=natelo%20Emmen&output=embed'
     }
 ];
